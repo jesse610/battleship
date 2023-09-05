@@ -24,12 +24,17 @@ class Gameboard {
     }
 
     placeShip(y, x, length, orientation = 'horizontal') {
-        let ship = new Ship(length)
-
         if (x + length > this.length || y + length > this.length)
         {
             throw new Error('The ship placement exceeds the boundaries of the board.')
         }
+
+        if (this.board[y][x] !== null)
+        {
+            throw new Error('The ship placement cell already contains a ship.')
+        }
+
+        let ship = new Ship(length)
 
         if (orientation === 'vertical')
         {
