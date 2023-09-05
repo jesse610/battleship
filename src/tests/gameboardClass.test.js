@@ -39,4 +39,9 @@ test('Throw error if ship length exceeds board', () => {
     const gb = new Gameboard(2, 2)
     expect(() => gb.placeShip(0, 0, 3)).toThrow('The ship placement exceeds the boundaries of the board.')
 })
-test.todo('Throw error if another ship already in cell')
+
+test('Throw error if another ship already in cell', () => {
+    const gb = new Gameboard(2, 2)
+    gb.placeShip(0, 0, 1)
+    expect(() => gb.placeShip(0, 0, 1)).toThrow('The ship placement cell already contains a ship.')
+})
