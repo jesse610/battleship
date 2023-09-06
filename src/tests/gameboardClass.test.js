@@ -55,10 +55,34 @@ xtest('initial receiveAttack test', () => {
     expect(gb.receiveAttack(0, 1)).toEqual('Hit!')
 })
 
-test('Hit correctly adds one to correct ship', () => {
+test('Hit correctly adds one to ship', () => {
     const gb = new Gameboard(2, 2)
     gb.placeShip(0, 0, 1)
     gb.receiveAttack(0, 0)
     let ship = gb.board[0][0]
     expect(ship.hits).toBe(1)
+})
+
+test('Hitting same cell twice for boats greater than 1 does not update hits', () => {
+    const gb = new Gameboard(3, 3)
+    gb.placeShip(0, 1, 2)
+
+    let ship1 = gb.board[0][1]
+
+    gb.receiveAttack(0, 1)
+    gb.receiveAttack(0, 1)
+
+    expect(ship1.hits).toBe(1)
+})
+
+test('Hit correctly updates ships greater than 1', () => {
+    const gb = new Gameboard(3, 3)
+    gb.placeShip(0, 1, 2)
+
+    let ship1 = gb.board[0][1]
+
+    gb.receiveAttack(0, 1)
+    gb.receiveAttack(0, 2)
+
+    expect(ship1.hits).toBe(2)
 })
