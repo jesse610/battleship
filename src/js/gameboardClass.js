@@ -5,6 +5,7 @@ class Gameboard {
         this.length = length
         this.width = width
         this.board = this.createBoard(length, width)
+        this.pastAttacks = []
     }
 
     createBoard(length, width) {
@@ -57,12 +58,18 @@ class Gameboard {
     receiveAttack(y, x) {
         const cell = this.board[y][x];
 
+        if (this.pastAttacks.includes(`[${y}, ${x}]`))
+        {
+            return null
+        }
+
         if (cell !== null)
         {
             cell.hit()
         }
 
-        console.log(cell)
+        this.pastAttacks.push(`[${y}, ${x}]`)
+        return cell
     }
 }
 
