@@ -50,6 +50,19 @@ class Gameboard {
                 this.board[y][i] = ship
             }
         }
+
+        return ship
+    }
+
+    receiveAttack(y, x) {
+        const cell = this.board[y][x];
+
+        if (cell !== null)
+        {
+            cell.hit()
+        }
+
+        console.log(cell)
     }
 }
 
