@@ -6,6 +6,7 @@ test('board is created', () => {
                                         [null, null]])
 })
 
+// ship placement tests
 test('Place ship at specific x, y cordindate', () => {
     const gb = new Gameboard(2, 2)
     gb.placeShip(0, 1, 1)
@@ -35,6 +36,7 @@ test('vertical orientation', () => {
     )
 })
 
+// error tests
 test('Throw error if ship length exceeds board', () => {
     const gb = new Gameboard(2, 2)
     expect(() => gb.placeShip(0, 0, 3)).toThrow('The ship placement exceeds the boundaries of the board.')
@@ -44,4 +46,19 @@ test('Throw error if another ship already in cell', () => {
     const gb = new Gameboard(2, 2)
     gb.placeShip(0, 0, 1)
     expect(() => gb.placeShip(0, 0, 1)).toThrow('The ship placement cell already contains a ship.')
+})
+
+// receiveAttack tests
+xtest('initial receiveAttack test', () => {
+    const gb = new Gameboard(2, 2)
+    gb.placeShip(0, 1, 1)
+    expect(gb.receiveAttack(0, 1)).toEqual('Hit!')
+})
+
+test('Hit correctly adds one to correct ship', () => {
+    const gb = new Gameboard(2, 2)
+    gb.placeShip(0, 0, 1)
+    gb.receiveAttack(0, 0)
+    let ship = gb.board[0][0]
+    expect(ship.hits).toBe(1)
 })
