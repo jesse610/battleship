@@ -86,3 +86,39 @@ test('Hit correctly updates ships greater than 1', () => {
 
     expect(ship1.hits).toBe(2)
 })
+
+test('missed attack', () => {
+    const gb = new Gameboard(3, 3)
+    gb.placeShip(0, 0, 2)
+    gb.receiveAttack(0, 2)
+
+    expect(gb.missedAttacks).toStrictEqual(['[0, 2]'])
+})
+
+test('records ships on board', () => {
+    const gb = new Gameboard(3, 3)
+    gb.placeShip(0, 0, 1)
+    gb.placeShip(1, 1, 1)
+
+    expect(gb.ships).toEqual([{length: 1, hits: 0, sunk: false}, {length: 1, hits: 0, sunk: false}])
+})
+
+// checkAllShipsSunk tests
+test('Check if all ships have sunk', () => {
+    const gb = new Gameboard(3, 3)
+    gb.placeShip(0, 0, 1)
+    gb.placeShip(1, 1, 1)
+
+    gb.receiveAttack(0, 0)
+    gb.receiveAttack(1, 1)
+
+    expect(gb.checkAllShipsSunk()).toBe(true)
+})
+
+test('One ship sunk and another is not', () => {
+    const gb = new Gameboard(3, 3)
+    gb.placeShip(0, 0, 1)
+
+    gb.receiveAttack(1, 1)
+    expect(gb.checkAllShipsSunk()).toBe(false)
+})
