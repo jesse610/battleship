@@ -5,7 +5,9 @@ class Gameboard {
         this.length = length
         this.width = width
         this.board = this.createBoard(length, width)
-        this.pastAttacks = []
+        this.allAttacks = []
+        this.missedAttacks = []
+        this.ships = []
     }
 
     createBoard(length, width) {
@@ -52,24 +54,37 @@ class Gameboard {
             }
         }
 
+        this.ships.push(ship)
         return ship
     }
 
     receiveAttack(y, x) {
-        const cell = this.board[y][x];
 
-        if (this.pastAttacks.includes(`[${y}, ${x}]`))
+        if (this.allAttacks.includes(`[${y}, ${x}]`))
         {
             return null
         }
 
+        let missed = true;
+        const cell = this.board[y][x];
+        this.allAttacks.push(`[${y}, ${x}]`)
+
         if (cell !== null)
         {
             cell.hit()
+            missed = false;
         }
 
-        this.pastAttacks.push(`[${y}, ${x}]`)
+        if (missed === true)
+        {
+            this.missedAttacks.push(`[${y}, ${x}]`)
+        }
+
         return cell
+    }
+
+    checkAllShipsSunk() {
+        return this.ships.every(ship => ship.sunk)
     }
 }
 
